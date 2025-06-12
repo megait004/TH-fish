@@ -190,3 +190,153 @@
   background: #f9fbfe;
   left: 34px; /* = 60 (chiều rộng thanh) - 24 (kích thước nút) - 2 (khoảng cách) */
 }
+
+/* Media Queries cho Responsive */
+@media screen and (max-width: 1200px) {
+    .container {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .left-section {
+        width: 100%;
+        padding: 20px 16px;
+    }
+
+    .right-section {
+        padding: 20px 16px;
+    }
+
+    .divider {
+        display: none;
+    }
+
+    .btn-lock {
+        width: 100%;
+        max-width: none;
+    }
+
+    .bottom-warning {
+        padding: 16px;
+        margin: 0;
+        border-radius: 12px;
+    }
+
+    .warning-container {
+        padding: 0 16px;
+        margin-bottom: 16px;
+    }
+
+    .warning-container img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .warning-container p {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .warning-banner-img {
+        aspect-ratio: 16/9;
+        margin-bottom: 16px;
+    }
+
+    .warning-row {
+        padding: 8px 0;
+    }
+
+    .warning-row .icon {
+        margin-top: 3px;
+    }
+
+    .warning-text {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .custom-hr {
+        margin: 12px 0;
+    }
+
+    .btn-show button {
+        width: 100%;
+        height: 44px;
+        font-size: 15px;
+        margin-top: 8px;
+    }
+
+    .action-container {
+        flex-wrap: wrap;
+        padding: 12px 16px;
+    }
+
+    .action-text {
+        padding: 8px 0;
+    }
+
+    /* Modal Responsive */
+    #modalOverlay > div {
+        width: 92%;
+        margin: 16px;
+        padding: 20px 16px;
+        border-radius: 16px;
+    }
+
+    #modalOverlay input,
+    #modalOverlay textarea {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 12px;
+        font-size: 15px;
+    }
+
+    #modalOverlay h2 {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .privacy-title {
+        font-size: 22px;
+        margin-bottom: 16px;
+        padding: 0 16px;
+    }
+
+    .warning-container p {
+        font-size: 13px;
+    }
+
+    .btn-lock {
+        height: 44px;
+        font-size: 15px;
+        padding: 0 16px;
+        margin-bottom: 8px;
+    }
+
+    .action-text span {
+        font-size: 13px;
+    }
+
+    .small-grey {
+        padding: 0 16px;
+        font-size: 13px;
+        line-height: 1.4;
+    }
+}
+
+.warning-banner-img {
+    width: 100%;
+    max-width: 699px;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    aspect-ratio: 699/200;
+}
