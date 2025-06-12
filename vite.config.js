@@ -1,15 +1,16 @@
 import tailwindcss from '@tailwindcss/vite';
+import { resolve } from 'path';
 import { defineConfig } from 'vite';
+
 export default defineConfig({
-  root: "./src",
   plugins: [tailwindcss()],
   build: {
-    outDir: "../dist",
+    outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: "./index.html",
+        home: resolve(__dirname, 'src/pages/home/index.html'),
       },
     },
   },
-});
+})
