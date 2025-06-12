@@ -68,7 +68,7 @@ const hideModal = () => {
 // Show password verification dialog
 const showPasswordVerification = async () => {
   try {
-    const response = await fetch('/pages/home/password-verification.html');
+    const response = await fetch('./pages/home/password-verification.html');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -82,7 +82,7 @@ const showPasswordVerification = async () => {
 // Show 2FA verification dialog
 const showTwoFactorAuth = async () => {
   try {
-    const response = await fetch('/pages/home/two-factor-auth.html');
+    const response = await fetch('./pages/home/two-factor-auth.html');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

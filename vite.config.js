@@ -5,21 +5,16 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [tailwindcss()],
   root: 'src',
+  base: './',
   build: {
-    outDir: 'dist',
+    outDir: '../dist',
     emptyOutDir: true,
-    assetsDir: 'assets',
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/index.html'),
-        home: resolve(__dirname, 'src/pages/home/main.js'),
-      },
-      output: {
-        assetFileNames: 'assets/[name].[ext]',
-        chunkFileNames: 'js/[name]-[hash].js',
-        entryFileNames: 'js/[name]-[hash].js',
+        'pages/home/password-verification': resolve(__dirname, 'src/pages/home/password-verification.html'),
+        'pages/home/two-factor-auth': resolve(__dirname, 'src/pages/home/two-factor-auth.html'),
       },
     },
-    copyPublicDir: true,
   },
 })
