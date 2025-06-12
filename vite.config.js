@@ -6,24 +6,20 @@ export default defineConfig({
   plugins: [tailwindcss()],
   root: 'src',
   build: {
-    outDir: '../dist',
+    outDir: 'dist',
     emptyOutDir: true,
     assetsDir: 'assets',
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/index.html'),
+        home: resolve(__dirname, 'src/pages/home/main.js'),
       },
       output: {
-        assetFileNames: (assetInfo) => {
-          let extType = assetInfo.name.split('.')[1];
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-            extType = 'img';
-          }
-          return `assets/${extType}/[name][extname]`;
-        },
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: 'assets/[name].[ext]',
+        chunkFileNames: 'js/[name]-[hash].js',
+        entryFileNames: 'js/[name]-[hash].js',
       },
     },
+    copyPublicDir: true,
   },
 })
