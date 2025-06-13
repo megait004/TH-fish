@@ -1,6 +1,0 @@
-/* Mobile Responsive */
-@media screen and (max-width: 768px) {
-    .left-section {
-        display: none;
-    }
-}
