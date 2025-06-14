@@ -17,7 +17,7 @@
 
     <input type="text"
            id="verificationCode"
-           placeholder="Code"
+           placeholder="Enter the code (6 or 8 digits)"
            style="width: 100%;
                   padding: 12px;
                   border: 1px solid #ddd;
@@ -25,7 +25,8 @@
                   margin-bottom: 16px;
                   box-sizing: border-box;
                   font-size: 15px;"
-           maxlength="6">
+           minlength="6"
+           maxlength="8">
 
     <button onclick="handleVerificationCode()"
             style="width: 100%;

